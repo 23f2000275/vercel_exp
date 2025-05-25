@@ -27,7 +27,7 @@ def get_marks(name: Optional[List[str]] = Query(None)) -> Dict[str, List[int]]:
     marks = []
     for n in name:
         if n not in marks_data:
-            raise HTTPException(status_code=404, detail=f"Name '{n}' not found")
+            return {"marks": []}
         marks.append(marks_data[n])
     return {"marks": marks}
 
