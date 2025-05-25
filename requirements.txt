@@ -1,4 +1,1 @@
 fastapi
-typing
-json
-pathlib
