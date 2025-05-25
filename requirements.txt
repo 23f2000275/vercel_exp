@@ -1,1 +1,3 @@
 fastapi
+typing
+json
