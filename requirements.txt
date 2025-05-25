@@ -1,2 +1,2 @@
-fastapi
-json
+Flask
+flask-cors
