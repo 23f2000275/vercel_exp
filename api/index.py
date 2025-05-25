@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query, HTTPException
+from fastapi import FastAPI, Query, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Dict, Optional
 from pathlib import Path
@@ -20,12 +20,12 @@ with data_path.open() as f:
     marks_data: Dict[str, int] = json.load(f)
 
 @app.get("/api")
-def get_marks(name: Optional[List[str]] = Query(None)) -> Dict[str, List[int]]:
-    if not name:
-        raise HTTPException(status_code=400, detail="Query parameter 'name' is required")
-
+def get_marks(request: Request)
+    parameters=list()
+    for par_name in request.query_params:
+        parameters.append(par_name)
     marks = []
-    for n in name:
+    for n in par_name:
         if n not in marks_data:
             return {"marks": []}
         marks.append(marks_data[n])
