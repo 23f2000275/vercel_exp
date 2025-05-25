@@ -22,7 +22,7 @@ with data_path.open() as f:
 @app.get("/api")
 def get_marks(request: Request)
     parameters=list()
-    for par_name in request.query_params:
+    for par_name in request.query_params.getlist("name"):
         parameters.append(par_name)
     marks = []
     for n in par_name:
