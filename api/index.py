@@ -1,33 +1,18 @@
-from fastapi import FastAPI, Query, HTTPException, Request
-from fastapi.middleware.cors import CORSMiddleware
-from typing import List, Dict, Optional
-from pathlib import Path
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 import json
 
-app = FastAPI()
+app = Flask(__name__)
+CORS(app)
 
-# Enable CORS for all origins
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["GET"],
-    allow_headers=["*"],
-)
+with open('api/data.json') as f:
+    students = json.load(f)
 
-# Load data.json
-data_path = Path(__file__).parent / "data.json"
-with data_path.open() as f:
-    marks_data: Dict[str, int] = json.load(f)
-
-@app.get("/api")
-def get_marks(request: Request)
-    parameters=list()
-    for par_name in request.query_params.getlist("name"):
-        parameters.append(par_name)
+@app.route('/api', methods=['GET'])
+def get_marks():
+    names = request.args.getlist('name')
     marks = []
-    for n in par_name:
-        if n not in marks_data:
-            return {"marks": []}
-        marks.append(marks_data[n])
-    return {"marks": marks}
-
+    for name in names:
+        student = next((s for s in students if s["name"] == name), None)
+        marks.append(student["marks"] if student else None)
+    return jsonify({"marks": marks})
